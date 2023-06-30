@@ -58,10 +58,10 @@ exclude: [vendor]
 Blog: /blog
 
 # Add general links to site pages here
-links:
-  Resume: /assets/resume.pdf
+#links:
+#  Youtube: https://youtube.com/@char2int
   
 
 # Add links for more focus here
 special_links:
-  "Search": https://google.com
+  "Youtube": https://youtube.com/@char2int

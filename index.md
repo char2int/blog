@@ -1,24 +1,22 @@
 ---
 layout: default
-title: Hello
+title: Index
 ---
 
 
-## An easy to use, minimal, text focused Jekyll theme
+## Hacking and Coding
 
-[Bear Blog](https://bearblog.dev/) is *"a blogging platform where words matter most"*. 
+[char2int](https://youtube.com/@char2int) is a channel and blog where you can learn coding and hacking tutorials!
 
-This is a port of it's theme to Jekyll, with some tweaks. So you can use GitHub Pages to host your blog while getting the same awesome Bear Blog feels.
+This website is a blog that accompanies videos made on the [char2int](https://youtube.com/@char2int) channel.
 
-**Stop worrying about the style, focus on your writing.**
+**Included Content**
 
-- Looks great on *any* device
-- Tiny, optimized, and awesome pages
-- No trackers, ads, or scripts, *did I mention minimal already?*
-- Auto light and dark themes
-- Tag support, to filter blog pages
-- Quick, *15 minute* setup
-- Gallery view for your images
-- Code highlighting
+- Kali Linux tutorials
+- C++ tutorials
+- Game Hacking tutorials
+- C# scripting tutorials
+- Bypass Anti-Virus tutorials
+- AND MUCH MORE...
 
-Have a look around, this website is already themed with **jekyllBear**. If you like it, head over to the GitHub [repository](https://github.com/knhash/jekyllBear) for installation instructions.
+To view my blog posts and tags, please click on [Blog](https://char2int.com/blog). Thanks for taking the time to check out my little blog!
