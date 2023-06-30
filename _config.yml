@@ -3,7 +3,7 @@
 
 title: char2int blog
 description: a place to dump text
-# baseurl: "char2int.com/" # the subpath of your site, e.g. /blog/
+# baseurl: "https://char2int.com/" # the subpath of your site, e.g. /blog/
 url: "https://char2int.com" # the base hostname & protocol for your site
 # host: 0.0.0.0
 
