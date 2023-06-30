@@ -3,7 +3,7 @@
 
 title: char2int blog
 description: a place to dump text
-# baseurl: "/blog/" # the subpath of your site, e.g. /blog/
+# baseurl: "/" # the subpath of your site, e.g. /blog/
 url: "https://char2int.com" # the base hostname & protocol for your site
 # host: 0.0.0.0
 
@@ -44,7 +44,7 @@ defaults:
     values:
       layout: tagged
 
-# baseurl: "https://char2int.com/"
+# baseurl: ""
 permalink: /blog/:slug
 timezone: America/New_York
 future: false
@@ -55,7 +55,7 @@ exclude:
 
 exclude: [vendor]
 
-Blog: /blog/
+Blog: /blog
 
 # Add general links to site pages here
 links:
