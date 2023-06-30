@@ -3,8 +3,8 @@
 
 title: char2int blog
 description: char2int's blog about hacking and coding
-# baseurl: "/blog" # the subpath of your site, e.g. /blog/
-url: "https://char2int.com/" # the base hostname & protocol for your site
+baseurl: "/" # the subpath of your site, e.g. /blog/
+url: "https://char2int.com" # the base hostname & protocol for your site
 # host: 0.0.0.0
 
 
@@ -39,7 +39,7 @@ collections:
 defaults:
   -
     scope:
-      path: "https://char2int.com"
+      path: ""
       type: my_tags
     values:
       layout: tagged
