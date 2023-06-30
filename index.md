@@ -4,7 +4,7 @@ title: Coming Soon
 ---
 
 
-## An easy to use, minimal, text focused Jekyll theme
+## Simple blog for an in depth channel
 
 [char2int.com](https://char2int.com/) is *"an upcoming blog for coding and hacking tutorials"*. 
 
