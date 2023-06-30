@@ -4,7 +4,7 @@
 title: char2int blog
 description: char2int's blog about hacking and coding
 # baseurl: "/blog" # the subpath of your site, e.g. /blog/
-url: "https://char2int.com/blog" # the base hostname & protocol for your site
+url: "https://char2int.com/" # the base hostname & protocol for your site
 # host: 0.0.0.0
 
 
@@ -44,7 +44,7 @@ defaults:
     values:
       layout: tagged
 
-# baseurl: ""
+# baseurl: "https://char2int.com/"
 permalink: /blog/:slug
 timezone: America/New_York
 future: false
