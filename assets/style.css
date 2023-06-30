@@ -4,7 +4,7 @@ body {
     padding: 20px;
     max-width: 720px;
     text-align: left;
-    background-color: #fff;
+    background-color: #131516;
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.5;
@@ -98,7 +98,7 @@ input:required:not([type="submit"]) {
 
 textarea.full-screen {
     position: fixed;
-    background-color: white;
+    background-color: #d8d4cf;
     top: -2px;
     bottom: -2px;
     left: 0;
