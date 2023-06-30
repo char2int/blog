@@ -143,16 +143,16 @@ img {
 code {
     font-family: monospace;
     padding: 2px;
-    background-color: #f2f2f2;
-    color: #222;
+    background-color: #201c24;
+    color: #FFF;
     border-radius: 3px;
 }
 
 .highlight,
 .code {
     padding: 1px 15px;
-    background-color: #f2f2f2;
-    color: #222;
+    background-color: #202424;
+    color: #FFF;
     border-radius: 3px;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -299,7 +299,8 @@ ul.discover-posts li small a {
     }
 
     code {
-        background-color: #777;
+        background-color: #201c24;
+        color: #FFF
     }
 
     pre code {
