@@ -44,7 +44,7 @@ defaults:
     values:
       layout: tagged
 
-# baseurl: "https://char2int.com/"
+# baseurl: "https://char2int.com"
 permalink: /blog/:slug
 timezone: America/New_York
 future: false
