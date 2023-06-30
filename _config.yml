@@ -39,7 +39,7 @@ collections:
 defaults:
   -
     scope:
-      path: ""
+      path: "https://char2int.com"
       type: my_tags
     values:
       layout: tagged
