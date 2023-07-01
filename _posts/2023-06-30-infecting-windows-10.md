@@ -203,10 +203,10 @@ To start out with the Main(strings[] args) function, this is just the main funct
                 f_announcements[i] = Convert.ToByte(announcements[i], 16);
             }
 ```
-This piece of code grabs our stored payload bytes from the dcb.get function (which I will explain next) and then splits each byte by the comma separating them,  then adding them all into a byte array. Usually payloads are orignially just a byte array but there is a very good reason as to why we store them this way. If we were to store the bytes just as a byte array at compile time (meaning those bytes are written in by us and cane be seen in the compiled binary), then most antivirus software would be able to easily detect that we have a public payload in our program! If we store them as a string and then add them to a byte list at compile time the antivirus has a much harder time detecting that it is a payload.
+This piece of code grabs our stored payload bytes from the dcb.get function (which I will explain next) and then splits each byte by the comma separating them,  then adding them all into a byte array. Usually payloads are orignially just a byte array but there is a very good reason as to why we store them this way. If we were to store the bytes just as a byte array at compile time (meaning those bytes are written in by us and can be seen in the compiled binary), then most antivirus software would be able to easily detect that we have a public payload in our program! If we store them as a string and then add them to a byte list at runtime the antivirus has a much harder time detecting that it is a payload.
 [This article](https://damonmohammadbagher.github.io/Posts/ebookBypassingAVsByCsharpProgramming/index.htm) does  a very good job demonstrating this here:  
 <img src="https://char2int.com/assets/images/6-30-23/image07.webp" alt="image07">  
-Back to the dcb.get function and the dcb class as a whole. The function and class server as an extra layer of security. The dcb.get function when given a true bool, returns an encrypted string using Base64 and XOR Encryption. When a false bool is passed, it attempts to decrypt this string and give back the original string. That is why I had you change the `int two = CHANGEMETOARANDOMNUMBER;` line to a random number, because that is your encryption key and it should not be the same for everyone or that defeats the purpose.
+Back to the dcb.get function and the dcb class as a whole. The function and class serve as an extra layer of security. The dcb.get function when given a true bool, returns an encrypted string using Base64 and XOR Encryption. When a false bool is passed, it attempts to decrypt this string and give back the original string. That is why I had you change the `int two = CHANGEMETOARANDOMNUMBER;` line to a random number, because that is your encryption key and it should not be the same for everyone or that defeats the purpose.
 Finally, the last bit of code here:
 ```csharp
             UInt32 funcAddr = VirtualAlloc(0x0000, (UInt32)f_announcements.Length, 0x1000, 0x40);
@@ -218,7 +218,7 @@ Finally, the last bit of code here:
             WaitForSingleObject(hThread, 0xffffffff);
             Console.WriteLine("Done!"); // Gottem
 ```
-allocates virtual memory for our payload to go in to, executes it, and waits for a return to close the program. All of the DLL imports stuff after the main function is just settings up the Windows API function calls that is code uses to allocate and execute said memory.
+allocates virtual memory for our payload to go in to, executes it, and waits for a return to close the program. All of the DLL imports stuff after the main function is setting up the Windows API function calls that we use to allocate and execute our payload memory.
 
 **Step 3: Execution**  
 It's finally time to attack! Open up a new terminal on Kali and type in the following commands:
